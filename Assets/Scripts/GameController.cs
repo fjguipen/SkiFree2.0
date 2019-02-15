@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
-    GameObject player;
+    Player player;
+    Board board;
     public bool endOfGame = false;
 	// Use this for initialization
 	void Start () {
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindObjectOfType<Player>();
+        board = GameObject.FindObjectOfType<Board>();
 
     }
 	
@@ -17,5 +19,17 @@ public class GameController : MonoBehaviour {
 		
 	}
 
+    public void DestroyedByObstacle()
+    {
+        player.Kill();
+        board.StopMovement();
+    }
+
+    public void FinishedLineReached()
+    {
+        endOfGame = true;
+        board.SlowDownMovement();
+        player.Win();
+    }
 
 }

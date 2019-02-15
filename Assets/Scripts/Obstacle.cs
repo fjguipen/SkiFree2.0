@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour {
 
+    GameController controller;
+
 	// Use this for initialization
 	void Start () {
-		
+        controller = GameObject.FindObjectOfType<GameController>();
 	}
 
     //Trigger para detectar cuando el jugador sale de la zona de juego
-    private void OnCollisionEnter2D (Collision2D other)
+    private void OnCollisionEnter2D ()
     {
-        Debug.Log(other.contacts[0].normal);  
-        other.gameObject.GetComponent<Player>().Kill();
+        controller.DestroyedByObstacle();
     }
 }
