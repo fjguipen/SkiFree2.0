@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class Board : MonoBehaviour {
 
-    Rigidbody2D body;
     float maxVelocity = 8;
+    Rigidbody2D body;
+    GameController ctrl;
 
     // Use this for initialization
     void Start () {
         body = gameObject.GetComponentInChildren<Rigidbody2D>();
+        ctrl = GameObject.FindObjectOfType<GameController>();
 
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() && !ctrl.isPaused)
         {
             body.AddForce(new Vector3(0, 0.6f, 0), ForceMode2D.Impulse);
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
-    GameController controller;
+    GameController ctrl;
     Board board;
     Ray ray;
     RaycastHit2D hit;
@@ -19,7 +19,7 @@ public class Player : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        controller = GameObject.FindObjectOfType<GameController>();
+        ctrl = GameObject.FindObjectOfType<GameController>();
         spriteRender = gameObject.GetComponentInChildren<SpriteRenderer>();
         spriteNormal = Resources.Load<Sprite>("PlayerSprites/jugador");
         spriteJumping = Resources.Load<Sprite>("PlayerSprites/jugador_salto");
@@ -65,7 +65,7 @@ public class Player : MonoBehaviour {
             if (IsGrounded() && !isEnded)
             {
                 spriteRender.transform.up = hit.normal;
-                controller.DestroyedByObstacle();
+                ctrl.DestroyedByObstacle();
             }
         }
         
@@ -76,12 +76,11 @@ public class Player : MonoBehaviour {
     private void LateUpdate()
     {
 
-
-        if (Input.GetKey(KeyCode.LeftArrow) && !isEnded && !IsGrounded())
+        if (Input.GetKey(KeyCode.LeftArrow) && !isEnded && !IsGrounded() && !ctrl.isPaused)
         {
             spriteRender.transform.Rotate(Vector3.forward * 3.5f);
         }
-        if (Input.GetKey(KeyCode.RightArrow) && !isEnded && !IsGrounded())
+        if (Input.GetKey(KeyCode.RightArrow) && !isEnded && !IsGrounded() && !ctrl.isPaused)
         {
             spriteRender.transform.Rotate(Vector3.back * 2);
         }
