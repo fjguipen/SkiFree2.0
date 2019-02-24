@@ -8,16 +8,17 @@ public class Player : MonoBehaviour {
     Board board;
     Ray ray;
     RaycastHit2D hit;
-    SpriteRenderer spriteRender;
+    public SpriteRenderer spriteRender;
     Sprite spriteNormal;
     Sprite spriteJumping;
     Sprite spriteHurt;
     Sprite spriteWin;
+    Collider2D hitCollider;
     bool hasItsSprite = false;
     private bool isHurted;
     private bool isEnded;
 
-	// Use this for initialization
+    // Use this for initialization
 	void Start () {
         ctrl = GameObject.FindObjectOfType<GameController>();
         spriteRender = gameObject.GetComponentInChildren<SpriteRenderer>();
@@ -37,17 +38,21 @@ public class Player : MonoBehaviour {
         {
             spriteRender.sprite = spriteJumping;
             hasItsSprite = false;
+            ctrl.StopSnow();
         }
         else
         {
+            ctrl.CreateSnow();
             if (!hasItsSprite && !isEnded)
             {
+                ctrl.ClearSnow();
                 spriteRender.sprite = spriteNormal;
                 hasItsSprite = true;
             }
         }
 
         gameObject.transform.position = board.transform.position;
+
     }
 
     void FixedUpdate()
@@ -68,25 +73,46 @@ public class Player : MonoBehaviour {
                 ctrl.DestroyedByObstacle();
             }
         }
-        
+
+        /*
+        hitCollider = Physics2D.OverlapCircle(gameObject.transform.position, 0.4f, LayerMask.GetMask("Floor"));
+        if (hitCollider != null)
+        {
+            ctrl.CreateSnow();
+        }
+        else
+        {
+            ctrl.StopSnow();
+        }
+        */
+        ctrl.AlignSnow(hit);
 
 
     }
 
     private void LateUpdate()
     {
-
+        
         if (Input.GetKey(KeyCode.LeftArrow) && !isEnded && !IsGrounded() && !ctrl.isPaused)
         {
             spriteRender.transform.Rotate(Vector3.forward * 3.5f);
+            //Debug.Log(spriteRender.transform.localEulerAngles);
         }
         if (Input.GetKey(KeyCode.RightArrow) && !isEnded && !IsGrounded() && !ctrl.isPaused)
         {
             spriteRender.transform.Rotate(Vector3.back * 2);
         }
+        if (IsGrounded()) {
+            
+        }
+
+       
+
+
     }
 
-    private bool IsGrounded()
+    
+    public bool IsGrounded()
     {
         return Physics2D.OverlapCircle(gameObject.transform.position, 0.5f, LayerMask.GetMask("Floor")) != null;
     }
@@ -109,4 +135,6 @@ public class Player : MonoBehaviour {
         isEnded = true;
         spriteRender.sprite = spriteHurt;
     }
+
 }
+

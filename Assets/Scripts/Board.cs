@@ -5,7 +5,7 @@ using UnityEngine;
 public class Board : MonoBehaviour {
 
     float maxVelocity = 8;
-    Rigidbody2D body;
+    public Rigidbody2D body;
     GameController ctrl;
 
     // Use this for initialization
@@ -19,6 +19,8 @@ public class Board : MonoBehaviour {
 	void Update () {
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() && !ctrl.isPaused)
         {
+            ctrl.PushSnow();
+            ctrl.SetJumpingAngle();
             body.AddForce(new Vector3(0, 0.6f, 0), ForceMode2D.Impulse);
         }
     }
@@ -54,5 +56,8 @@ public class Board : MonoBehaviour {
     {
         body.bodyType = RigidbodyType2D.Static;
     }
+
+
+
 }
 

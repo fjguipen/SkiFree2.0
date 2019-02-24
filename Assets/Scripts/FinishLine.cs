@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class FinishLine : MonoBehaviour {
 
-    GameController controller;
+    GameController ctrl;
     
     // Use this for initialization
 	void Start () {
-        controller = GameObject.FindObjectOfType<GameController>();
+        ctrl = GameObject.FindObjectOfType<GameController>();
 	}
 
     //Trigger para detectar cuando el jugador sale de la zona de juego
     private void OnTriggerEnter2D()
     {
-        controller.FinishedLineReached();
+        ctrl.FinishedLineReached();
 
     }
 }
