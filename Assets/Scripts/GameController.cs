@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour {
     Player player;
     Board board;
     Marcador marcador;
+    GameObject yeti;
 
     //UI
     GameObject pauseMenu;
@@ -29,6 +30,10 @@ public class GameController : MonoBehaviour {
     public bool gameRunning = false;
     public bool isPaused;
 
+    //Yeti Utils
+    private bool releasedYeti;
+    private Vector2[] targets;
+
     //Jumping and backflipping
     Quaternion jumpRotation;
     bool flipped;
@@ -42,6 +47,7 @@ public class GameController : MonoBehaviour {
         player = GameObject.FindObjectOfType<Player>();
         board = GameObject.FindObjectOfType<Board>();
         marcador = GameObject.FindObjectOfType<Marcador>();
+        yeti = GameObject.Find("Yeti");
 
         pauseMenu = GameObject.Find("PauseMenu");
         pauseBut = GameObject.Find("PauseButton");
@@ -55,10 +61,10 @@ public class GameController : MonoBehaviour {
         //Jumping and backflipping
         //jumpAngle = 0f;
 
-
         isPaused = false;
+        releasedYeti = false;
 
-        if(currentScene.name != "MainMenu")
+        if (currentScene.name != "MainMenu")
         {
             frictionSnow = GameObject.Find("FrictionSnow").GetComponent<ParticleSystem>();
             pushSnow = GameObject.Find("PushSnow").GetComponent<ParticleSystem>();
@@ -108,7 +114,21 @@ public class GameController : MonoBehaviour {
                 flipped = false;  
             }
 
-            //Debug.Log(timer.GetComponent<RectTransform>().anchoredPosition);
+            if (releasedYeti)
+            {
+                float speedy = 11f;
+                yeti.transform.position = Vector2.MoveTowards(yeti.transform.position, player.transform.position, speedy * Time.fixedDeltaTime);
+                if (yeti.transform.position == player.transform.position)
+                {
+                    DestroyedByObstacle();
+                }
+            } else
+            {
+                Vector3 camPos = cam.transform.position;
+                yeti.transform.position = new Vector3(camPos.x - cam.orthographicSize - 6, camPos.y, 0);
+            }
+
+            
         }
     }
 
@@ -280,6 +300,11 @@ public class GameController : MonoBehaviour {
             
             endGameButtons.SetActive(true);
         }
+    }
+
+    public void ReleaseTheYeti()
+    {
+        releasedYeti = true;
     }
 
 }
