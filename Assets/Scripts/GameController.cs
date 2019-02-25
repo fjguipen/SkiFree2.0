@@ -162,7 +162,7 @@ public class GameController : MonoBehaviour
     {
         //Recojo posición del jugador
         Vector3 playerPosition = player.transform.position;
-        //Fijamos las particulas en su posicion anterior al salto
+        //Fijamos las particulas en su posicion de salto
         pushSnow.transform.position = new Vector3(snowLastPosition.x - 0.39f, snowLastPosition.y - 0.45f, snowLastPosition.z);
         //Activacón
         pushSnow.Play();
@@ -184,7 +184,6 @@ public class GameController : MonoBehaviour
             snowLastPosition = player.transform.position;
             //Los efectos de partículas siguen al jugador
             frictionSnow.transform.position = new Vector3(playerPosition.x + 0f, playerPosition.y - 0.45f, playerPosition.z);
-            pushSnow.transform.position = new Vector3(playerPosition.x, playerPosition.y - 0.45f, playerPosition.z);
             //Activación
             frictionSnow.Emit(1);
         }
