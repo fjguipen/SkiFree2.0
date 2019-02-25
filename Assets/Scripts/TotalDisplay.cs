@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+//Clase por convenciecia, utilizamos su atributo display desde el controlador
+
 public class TotalDisplay : MonoBehaviour {
 
     public Text display;
@@ -12,8 +15,4 @@ public class TotalDisplay : MonoBehaviour {
         display = gameObject.GetComponentInChildren<Text>();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-
-	}
 }

@@ -11,9 +11,10 @@ public class Obstacle : MonoBehaviour {
         controller = GameObject.FindObjectOfType<GameController>();
 	}
 
-    //Trigger para detectar cuando el jugador sale de la zona de juego
+    //Trigger para detectar cuando el jugador choca contra algun obstáculo
     private void OnCollisionEnter2D ()
     {
+        //Comunica al controllador que el jugador ha de ser destruido
         controller.DestroyedByObstacle();
     }
 }

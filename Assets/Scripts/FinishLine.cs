@@ -8,12 +8,13 @@ public class FinishLine : MonoBehaviour {
     
     // Use this for initialization
 	void Start () {
-        ctrl = GameObject.FindObjectOfType<GameController>();
+        ctrl = FindObjectOfType<GameController>();
 	}
 
-    //Trigger para detectar cuando el jugador sale de la zona de juego
+    //Trigger para detectar cuando el jugador llega a la meta
     private void OnTriggerEnter2D()
     {
+        //Comunica al controlador que se ha alcanzado la linea de meta
         ctrl.FinishedLineReached();
 
     }
